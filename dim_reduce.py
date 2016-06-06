@@ -4,7 +4,7 @@ import pandas as pd
 
 MODEL_FP = "models/"
 fp = "data/"
-model_name = "docs_test"
+model_name = "docs"
 words = False
 
 model = gensim.models.Doc2Vec.load(MODEL_FP + model_name)

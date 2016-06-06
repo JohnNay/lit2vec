@@ -20,6 +20,7 @@ s <- filter(s, !str_detect(title, "Explanatory Notes"))
 s <- filter(s, !str_detect(title, "Shakespeare's Tragedy of Romeo and Juliet"))
 s <- filter(s, !str_detect(title, "Arranged for Representation"))
 
+count(s, title) %>% data.frame() %>% pander::pander()
 
 # remove all punctuation and replace spaces in titles
 s$title <- gsub("[[:punct:]]", "", s$title)

@@ -1,4 +1,4 @@
-model_name <- "docs_test"
+model_name <- "docs"
 fp = "data/"
 wordAndcategory = FALSE
 
