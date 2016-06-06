@@ -1,0 +1,50 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+
+# *Mathematical Embeddings of Shakespeare*
+
+All code snippets are to be run in the shell unless otherwise noted.
+
+## Install gensim python module
+
+```
+sudo apt-get install g++
+sudo easy_install -U gensim
+```
+
+## Download and organize the data
+
+If you cloned this repository, and have the `data/` folder, you do not need to do this.
+
+```
+Rscript download.R &
+```
+
+## Learn model
+
+Loads in data, learns model, saves it in `models/`.
+
+```
+python lit2vec.py &
+```
+
+## Reduce dimensions and plot
+
+```
+python dim_reduce.py &
+Rscript plot_dim_reduce.R &
+```
