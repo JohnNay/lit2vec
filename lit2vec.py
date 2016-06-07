@@ -1,5 +1,5 @@
 from __future__ import division
-import gensim, pickle, logging, multiprocessing, datetime
+import gensim, pickle, logging, multiprocessing, datetime, re
 import numpy as np
 import pandas as pd
 from random import shuffle # for multiple passes over the data in random order
@@ -10,12 +10,32 @@ cores = multiprocessing.cpu_count() - 1
 
 assert gensim.models.doc2vec.FAST_VERSION > -1, "this will be too slow otherwise"
 
+def clean_str(string):
+    """
+    Tokenization/string cleaning.
+    Original from https://github.com/yoonkim/CNN_sentence/blob/master/process_data.py
+    """
+    string = re.sub(r"[^A-Za-z0-9(),!?\'\`]", " ", string)
+    string = re.sub(r"\'s", " \'s", string)
+    string = re.sub(r"\'ve", " \'ve", string)
+    string = re.sub(r"n\'t", " n\'t", string)
+    string = re.sub(r"\'re", " \'re", string)
+    string = re.sub(r"\'d", " \'d", string)
+    string = re.sub(r"\'ll", " \'ll", string)
+    string = re.sub(r",", " , ", string)
+    string = re.sub(r"!", " ! ", string)
+    string = re.sub(r"\(", " \( ", string)
+    string = re.sub(r"\)", " \) ", string)
+    string = re.sub(r"\?", " \? ", string)
+    string = re.sub(r"\s{2,}", " ", string)
+    return string.strip().lower()
+
 dat = pd.read_csv("data/s.csv")
 print dat.columns
 
 docs = []
 for i in range(dat.shape[0]):
-  words = dat.iloc[i, 0].split()
+  words = clean_str(dat.iloc[i, 0]).split()
   tags = [str(dat.iloc[i, 1])]
   docs.append(gensim.models.doc2vec.TaggedDocument(words, tags))
 
@@ -42,7 +62,7 @@ def fit(size, window, passes_over, min_count):
   print("Ended the training at %s" % str(datetime.datetime.now()))
   return(model)
 
-model = fit(200, 8, 20, 5)
+model = fit(200, 100, 20, 5)
 model.save('models/docs')
 
 # 2016-06-06 13:56:49,812 : INFO : collected 139517 word types and 66 unique tags from a corpus of 337820 examples and 2359663 words
