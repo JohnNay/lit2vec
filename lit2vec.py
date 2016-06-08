@@ -62,8 +62,8 @@ def fit(size, window, passes_over, min_count):
   print("Ended the training at %s" % str(datetime.datetime.now()))
   return(model)
 
-model = fit(200, 100, 20, 5)
-model.save('models/docs')
+model = fit(50, 20, 25, 2)
+model.save('models/docs50')
 
 # 2016-06-06 13:56:49,812 : INFO : collected 139517 word types and 66 unique tags from a corpus of 337820 examples and 2359663 words
 # 2016-06-06 13:56:49,911 : INFO : min_count=5 retains 31712 unique words (drops 107805)
